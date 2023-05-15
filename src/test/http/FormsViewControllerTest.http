@@ -1,4 +1,92 @@
+# Poniższe żądania są niezbędne do zainicjowania pracy z formularzem, użytkownik musi mieć możliwość wyboru modelu (1 request)
+# Po wyborze modelu zostaje użytkownikowi zaprezentowany domyślny formularz z wszystkimi polami (2 request)
+
+# Zasób pozwala pobrać listę modeli dla których jest możliwość utworzenia formularza na dane wejściowe.
+# Odpowiedzią tego zasobu jest list obiektów składających się z 3 atrybutów:
+# 1 - module = moduł/grupa do której należy model
+# 2 - name = nazwa modelu
+# 3 - primitive = czy jest to typ prymitywny (String, Long, DateTime) czy model złożony
+# Przykładowa odpowiedź:
+#[
+#  {
+#    "module": "organization",
+#    "name": "AppUser",
+#    "primitive": false
+#  },
+#  {
+#    "module": "organization",
+#    "name": "Customer",
+#    "primitive": false
+#  },
+#  {
+#    "module": "prodactivvity",
+#    "name": "Project",
+#    "primitive": false
+#  },
+#  {
+#    "module": "prodactivvity",
+#    "name": "Task",
+#    "primitive": false
+#  }
+#]
 GET http://{{host}}/v1/formModels
 
 ###
-GET http://{{host}}/form
+# Ten zasób pozwala pobrać szczegóły wybranego modelu, między innymi pola i ich typy
+# Przykładowa odpowiedź z wyjaśnieniem:
+#[
+#  {
+#    "name": "id", - nazwa pola
+#    "type": { - informacje o typie
+#      "module": "primitives",
+#      "name": "Long",
+#      "primitive": true
+#    },
+#    "constraints": [
+#      "Id"
+#    ],
+#    "multiplicity": "SINGULAR" - mnogość pola
+#  },
+#  {
+#    "name": "email",
+#    "type": {
+#      "module": "primitives",
+#      "name": "String",
+#      "primitive": true
+#    },
+#    "constraints": [],
+#    "multiplicity": "SINGULAR"
+#  },
+#  {
+#    "name": "password",
+#    "type": {
+#      "module": "primitives",
+#      "name": "String",
+#      "primitive": true
+#    },
+#    "constraints": [],
+#    "multiplicity": "SINGULAR"
+#  },
+#  {
+#    "name": "name",
+#    "type": {
+#      "module": "primitives",
+#      "name": "String",
+#      "primitive": true
+#    },
+#    "constraints": [],
+#    "multiplicity": "SINGULAR"
+#  },
+#  {
+#    "name": "lastName",
+#    "type": {
+#      "module": "primitives",
+#      "name": "String",
+#      "primitive": true
+#    },
+#    "constraints": [],
+#    "multiplicity": "SINGULAR"
+#  }
+#]
+
+GET http://{{host}}/v1/formModels/organization/AppUser

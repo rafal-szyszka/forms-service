@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(value = ["v1", "formModels"])
+@RequestMapping(value = ["v1/formModels"])
 class FormModelsController(
     private val dataServiceBridgeService: DataServiceBridgeService
 ) {

@@ -1,10 +1,29 @@
+# Ten zasób pozwala utworzyć formularz na wybranym modelu danych.
+# W ciele żądania przekazuje się strukturę formularza:
+# {
+#  "name": "Order task",
+#  "type": {
+#    "module": "prodactivvity",
+#    "name": "Task"
+#  },
+#  "fields": []
+# }
+# name = nazwa formularza wprowadzona przez użytkownika
+# type = to jest w zasadzie odpowiedź z zasobu: GET http://{{host}}/v1/formModels bez pola "primitive"
+# fields = to jest lista pól formularza w strukturze:
+# {
+#   "label": "Task name",
+#   "modelField": {}
+# }
+# label = nazwa pola wprowadzona przez użytkownika
+# modelField = to jest odpowiedź z zasobu pobierania szczegółów danego modelu np.: GET http://{{host}}/v1/formModels/organization/AppUser
 POST http://{{host}}/forms
 Content-Type: application/json
 
 {
   "name": "Order task",
   "type": {
-    "module": "prodactivv",
+    "module": "prodactivvity",
     "name": "Task"
   },
   "fields": [

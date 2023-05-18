@@ -17,7 +17,7 @@
 # }
 # label = nazwa pola wprowadzona przez użytkownika
 # modelField = to jest odpowiedź z zasobu pobierania szczegółów danego modelu np.: GET http://{{host}}/v1/formModels/organization/AppUser
-POST http://{{host}}/forms
+POST http://{{host}}/v1/forms
 Content-Type: application/json
 
 {
@@ -135,3 +135,6 @@ Content-Type: application/json
     }
   ]
 }
+
+###
+GET http://{{host}}/v1/forms/6466296f99728127297409ff

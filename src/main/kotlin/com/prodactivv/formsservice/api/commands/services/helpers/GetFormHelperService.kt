@@ -61,4 +61,8 @@ class GetFormHelperService(
 
         return dataFields[formField.persistenceData!!.name]
     }
+
+    fun getForm(id: String): Optional<Form> {
+        return formRepository.findById(id)
+    }
 }

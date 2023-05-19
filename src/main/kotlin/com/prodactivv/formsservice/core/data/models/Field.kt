@@ -1,11 +1,13 @@
 package com.prodactivv.formsservice.core.data.models
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.prodactivv.formsservice.communication.models.ModelField
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
+@JsonInclude(JsonInclude.Include.NON_NULL)
 open class Field(
 
     @Id
@@ -15,6 +17,9 @@ open class Field(
 
     open var decorators: List<Decorator>? = null,
 
-    @JsonIgnore
+    open var dataUrl: String? = null,
+
+    open var updateUrl: String? = null,
+
     open var persistenceData: ModelField? = null,
 )

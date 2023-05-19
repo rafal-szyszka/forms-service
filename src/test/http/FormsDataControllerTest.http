@@ -1,0 +1,4 @@
+GET http://{{host}}/v1/data/t/77462sdfs67df8sd
+
+###
+GET http://{{host}}/v1/data/u/1323sgdfsyd563sf

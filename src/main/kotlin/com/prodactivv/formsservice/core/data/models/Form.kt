@@ -5,7 +5,6 @@ import com.prodactivv.formsservice.communication.models.FormModel
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.Field
 
 @Document
 open class Form(
@@ -17,7 +16,7 @@ open class Form(
     @JsonIgnore
     open var type: FormModel? = null,
 
-    @Field("fields")
+    @org.springframework.data.mongodb.core.mapping.Field("fields")
     @DBRef
-    open var fields: List<com.prodactivv.formsservice.core.data.models.Field>? = null,
-) {}
+    open var fields: List<Field>? = null,
+)

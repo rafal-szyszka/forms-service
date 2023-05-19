@@ -2,22 +2,49 @@ package com.prodactivv.formsservice.api.commands.services
 
 import com.prodactivv.formsservice.api.commands.models.FormDto
 import com.prodactivv.formsservice.api.commands.models.FormWithDataDTO
-import com.prodactivv.formsservice.api.commands.services.helpers.CreateFormHelperService
 import com.prodactivv.formsservice.api.commands.services.helpers.GetFormHelperService
+import com.prodactivv.formsservice.core.data.models.Field
 import com.prodactivv.formsservice.core.data.models.Form
+import com.prodactivv.formsservice.core.data.repos.FieldRepository
+import com.prodactivv.formsservice.core.data.repos.FormRepository
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class FormsService(
     private val getFormHelperService: GetFormHelperService,
-    private val createFormHelperService: CreateFormHelperService,
+    private val fieldRepository: FieldRepository,
+    private val formRepository: FormRepository,
 ) {
     fun createForm(formDto: FormDto): Form {
-        return createFormHelperService.createForm(formDto)
+        var form = Form(
+            name = formDto.name,
+            fields = formDto.fields.map {
+                fieldRepository.save(
+
+                    Field(
+                        label = it.label,
+                        decorators = it.decorators,
+                        dataUrl = "https://forms.service.bpower2.com/v1/data/?t=438234bsdfds92fn",
+                        updateUrl = null,
+                        persistenceData = it.modelField
+                    )
+                )
+            },
+            type = formDto.type
+        )
+
+        form = formRepository.save(form)
+        return form
     }
 
-    fun getForm(formId: String, dataId: String): FormWithDataDTO? {
+
+    fun getFormWithData(formId: String, dataId: String): FormWithDataDTO? {
         return getFormHelperService.getFormWithData(formId, dataId)
+    }
+
+    fun getForm(formId: String): Optional<Form> {
+        return getFormHelperService.getForm(formId)
     }
 
 }

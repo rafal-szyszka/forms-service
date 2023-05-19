@@ -3,16 +3,20 @@ package com.prodactivv.formsservice.communication
 import com.prodactivv.formsservice.communication.api.RestDataServiceCalls
 import com.prodactivv.formsservice.communication.exceptions.UnsupportedFormModelType
 import com.prodactivv.formsservice.communication.models.FormModel
-import com.prodactivv.formsservice.communication.models.DataServiceModelField
 import com.prodactivv.formsservice.communication.models.ModelField
 import com.prodactivv.formsservice.communication.models.PRIMITIVES
 import com.prodactivv.formsservice.core.proql.models.ProQLCommand
+import com.prodactivv.formsservice.core.proql.models.ProQLQuery
 import org.springframework.stereotype.Service
 
 @Service
 class DataServiceBridgeService(
     private val restDataServiceCalls: RestDataServiceCalls
 ) {
+
+    fun getData(proQLQuery: ProQLQuery): List<Map<String, Any>>  {
+        return restDataServiceCalls.getData(proQLQuery)
+    }
 
     fun getModels(): List<FormModel> {
         return restDataServiceCalls.getModels().map {

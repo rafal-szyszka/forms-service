@@ -1,4 +1,4 @@
-package com.prodactivv.formsservice.api.commands
+package com.prodactivv.formsservice.api.commands.services.helpers
 
 import com.prodactivv.formsservice.api.commands.models.FormDto
 import com.prodactivv.formsservice.core.data.models.Field
@@ -8,11 +8,10 @@ import com.prodactivv.formsservice.core.data.repos.FormRepository
 import org.springframework.stereotype.Service
 
 @Service
-class FormsService(
+class CreateFormHelperService(
     private val formRepository: FormRepository,
-    private val fieldRepository: FieldRepository,
+    private val fieldRepository: FieldRepository
 ) {
-
     fun createForm(formDto: FormDto): Form {
         var form = Form(
             name = formDto.name,
@@ -27,5 +26,4 @@ class FormsService(
         form = formRepository.save(form)
         return form
     }
-
 }

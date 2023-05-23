@@ -1,8 +1,9 @@
 package com.prodactivv.formsservice.api.exposed
 
 import com.prodactivv.formsservice.api.commands.models.FormDto
-import com.prodactivv.formsservice.api.commands.services.FormsService
+import com.prodactivv.formsservice.api.commands.services.FormCommandService
 import com.prodactivv.formsservice.api.commands.models.FormWithDataDTO
+import com.prodactivv.formsservice.api.commands.services.FormQueryService
 import com.prodactivv.formsservice.core.data.models.Form
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,17 +15,18 @@ import java.util.*
 @RestController
 @RequestMapping(value = ["v1/forms"])
 class FormsController(
-    private val formsService: FormsService,
+    private val formCommandService: FormCommandService,
+    private val formQueryService: FormQueryService,
 ) {
 
-    @GetMapping("/{formId}/{dataId}")
-    fun getFormWithData(@PathVariable formId: String, @PathVariable dataId: String): FormWithDataDTO? {
-        return formsService.getFormWithData(formId, dataId)
+    @GetMapping("/{id}/{dataId}")
+    fun getFormWithData(@PathVariable id: String, @PathVariable dataId: String): FormWithDataDTO? {
+        return formQueryService.getFormWithData(id, dataId)
     }
 
     @GetMapping("/{id}")
     fun getForm(@PathVariable id: String): ResponseEntity<Form> {
-        val form = formsService.getForm(id)
+        val form = formQueryService.getForm(id)
         return if (form.isPresent) {
             ResponseEntity.ok(form.get())
         } else {
@@ -34,7 +36,7 @@ class FormsController(
 
     @PostMapping
     fun createForm(@RequestBody form: FormDto): Form {
-        return formsService.createForm(form)
+        return formCommandService.createForm(form)
     }
 
 }

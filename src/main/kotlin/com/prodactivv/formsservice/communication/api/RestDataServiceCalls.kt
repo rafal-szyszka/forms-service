@@ -55,7 +55,7 @@ class RestDataServiceCalls {
             }
             setBody(proQLQuery)
             contentType(ContentType.Application.Json)
-            accept(ContentType.Application.Json) // Specify the expected response content type
+            accept(ContentType.Application.Json)
         }.body<List<Map<String, Any>>>()
     }
 
@@ -90,5 +90,4 @@ class RestDataServiceCalls {
             }
         }
     }
-
 }

@@ -1,18 +1,14 @@
 package com.prodactivv.formsservice.api.commands.services
 
 import com.prodactivv.formsservice.api.commands.models.FormDto
-import com.prodactivv.formsservice.api.commands.models.FormWithDataDTO
-import com.prodactivv.formsservice.api.commands.services.helpers.GetFormHelperService
 import com.prodactivv.formsservice.core.data.models.Field
 import com.prodactivv.formsservice.core.data.models.Form
 import com.prodactivv.formsservice.core.data.repos.FieldRepository
 import com.prodactivv.formsservice.core.data.repos.FormRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
-class FormsService(
-    private val getFormHelperService: GetFormHelperService,
+class FormCommandService(
     private val fieldRepository: FieldRepository,
     private val formRepository: FormRepository,
 ) {
@@ -36,15 +32,6 @@ class FormsService(
 
         form = formRepository.save(form)
         return form
-    }
-
-
-    fun getFormWithData(formId: String, dataId: String): FormWithDataDTO? {
-        return getFormHelperService.getFormWithData(formId, dataId)
-    }
-
-    fun getForm(formId: String): Optional<Form> {
-        return getFormHelperService.getForm(formId)
     }
 
 }

@@ -15,22 +15,24 @@ class FormQueryService(
     private val dataServiceBridgeService: DataServiceBridgeService,
     private val formRepository: FormRepository
 ) {
-    fun getFormWithData(id: String, dataId: String): FormWithDataDTO? {
+    fun getFormWithData(id: String, dataId: String): Optional<FormWithDataDTO> {
         val form = formRepository.findById(id).get()
         val data = dataServiceBridgeService.getData(getFormProQLQuery(form, dataId))[0]
 
-        return form.fields?.let {
+        return Optional.ofNullable(form.fields?.let {
             FormWithDataDTO(
                 form.name!!,
                 form.type!!,
-                it.map { FieldWithDataDto(
-                    it.label!!,
-                    it.persistenceData!!,
-                    it.decorators,
-                    getFieldValue(it, data)
-                ) }
+                it.map {
+                    FieldWithDataDto(
+                        it.label!!,
+                        it.persistenceData!!,
+                        it.decorators,
+                        getFieldValue(it, data)
+                    )
+                }
             )
-        }
+        })
     }
 
     private fun getFormProQLQuery(form: Form, dataId: String): ProQLQuery {

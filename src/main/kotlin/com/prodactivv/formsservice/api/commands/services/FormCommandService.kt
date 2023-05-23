@@ -6,18 +6,18 @@ import com.prodactivv.formsservice.core.data.models.Form
 import com.prodactivv.formsservice.core.data.repos.FieldRepository
 import com.prodactivv.formsservice.core.data.repos.FormRepository
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class FormCommandService(
     private val fieldRepository: FieldRepository,
     private val formRepository: FormRepository,
 ) {
-    fun createForm(formDto: FormDto): Form {
+    fun createForm(formDto: FormDto): Optional<Form> {
         var form = Form(
             name = formDto.name,
             fields = formDto.fields.map {
                 fieldRepository.save(
-
                     Field(
                         label = it.label,
                         decorators = it.decorators,
@@ -31,7 +31,7 @@ class FormCommandService(
         )
 
         form = formRepository.save(form)
-        return form
+        return Optional.ofNullable(form)
     }
 
 }

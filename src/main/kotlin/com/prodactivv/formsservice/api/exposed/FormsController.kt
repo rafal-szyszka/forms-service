@@ -20,8 +20,13 @@ class FormsController(
 ) {
 
     @GetMapping("/{id}/{dataId}")
-    fun getFormWithData(@PathVariable id: String, @PathVariable dataId: String): FormWithDataDTO? {
-        return formQueryService.getFormWithData(id, dataId)
+    fun getFormWithData(@PathVariable id: String, @PathVariable dataId: String): ResponseEntity<FormWithDataDTO> {
+        val formWithData = formQueryService.getFormWithData(id, dataId)
+        return if (formWithData.isPresent) {
+            ResponseEntity.ok(formWithData.get())
+        } else {
+            ResponseEntity.notFound().build()
+        }
     }
 
     @GetMapping("/{id}")
@@ -35,8 +40,13 @@ class FormsController(
     }
 
     @PostMapping
-    fun createForm(@RequestBody form: FormDto): Form {
-        return formCommandService.createForm(form)
+    fun createForm(@RequestBody form: FormDto): ResponseEntity<Form> {
+        val formSaved =  formCommandService.createForm(form)
+        return if (formSaved.isPresent) {
+            ResponseEntity.ok(formSaved.get())
+        } else {
+            ResponseEntity.notFound().build()
+        }
     }
 
 }

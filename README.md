@@ -163,6 +163,7 @@ Content-Type: application/json
   }
 ]
 ```
+</details>
 <details>
 <summary>Objaśnienie struktury odpowiedzi</summary>
 
@@ -181,7 +182,6 @@ czy właśnie jest takim domyślnym typem dostarczonym przez wybraną technologi
 czyli utworzony przez nas, wartość `true` z kolei informuje, że dany typ jest obsługiwany przez wykorzystywaną technologię
 </details>
 
-</details>
 </details>
 
 ---

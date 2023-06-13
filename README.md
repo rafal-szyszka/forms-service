@@ -18,15 +18,33 @@ i nie jest potrzebna żadna specjalistyczna wiedza aby taki formularz utworzyć.
 możliwość utworzenia formularza za pomocą jedynie kilku kliknięć, np.: wyborze z pośród dostępnych pól tylko tych
 które w danym momencie są porządane.
 
-### Dekoracje
+### Rozszerzanie funkcjonalności pola
+
+#### Dekoracje
 
 Kolejnym atutem tego rozwiązania będą dekoracje pola, czyli funkcje które rozszerzą podstawowe działanie każdego z pól o 
-nowe opcje. Dzięki wydzieleniu tego od głównego modelu pola, zyskujemy na wydajności i przejrzystości rozwiązania.
+nowe opcje. Dzięki wydzieleniu tego od głównego modelu pola, zyskujemy na wydajności i przejrzystości rozwiązania. Dekoracje
+mogą odpowiadać za określanie widoczności pól (dekorator HiddenFieldDecorator), zależnego ukrywania pól (dekorator DependantHiddenFieldDecorator),
+wymagalności pola (RequiredFieldDecorator) itp.
 
 <details>
 <summary>Dostępne dekoratory:</summary>
 - in progress
 </details>
+
+#### Źródła danych
+
+Następnym rozszerzeniem funkcjonalności pól są źródła danych. Źródło danych w postaci ProQLQuery można dodać do wybranego pola aby zawęzić
+ilość rekordów pobieranych ze zdefiniowanej relacji pola w modelu. Np.: pole wyboru klienta, można zawęzić niestandardowym warunkiem,
+określajacym, że do wyboru powinni być dostepni tylko klienci z Polski, lub z określonej listy numerów NIP.
+
+### Komunikacja z DataService
+Komunikacja z serwisem danowym opiera się na trzech typach:
+1. Pobieranie metadanych z serwisu danowego gdzie opisana tam została koncepcja wykorzystania cache'u, 
+która pozwoli realizowac pobieranie tych danych sprawniej.[(DataService)](https://gitlab.sonelli-group.com:444/bpower3/micro-services/data-service)
+2. Pobieranie danych za pomocą ProQLQuery
+3. Zapis danych za pomocą ProQLCommand
+
 
 ### Przykłady działania
 
@@ -145,8 +163,28 @@ Content-Type: application/json
   }
 ]
 ```
+<details>
+<summary>Objaśnienie struktury odpowiedzi</summary>
+
+```json
+  {
+    "module": "prodactivvity",
+    "name": "Task",
+    "primitive": false
+  }
+```
+`module` - nazwa modułu, grupy modeli, jednostki organizacyjnej. Pozwala i służy jedynie do organizacji modeli w grupy o zbliżonej
+odpowiedzialności / funkcjonalności  
+`name` - nazwa modelu  
+`primitive` - pole określa czy model jest zdefiniowany przez nas czyli nie jest domyślnym typem wybranego języka programowania,
+czy właśnie jest takim domyślnym typem dostarczonym przez wybraną technologię. Wartość `false` implikuje, że model jest niestandardowy
+czyli utworzony przez nas, wartość `true` z kolei informuje, że dany typ jest obsługiwany przez wykorzystywaną technologię
+</details>
+
 </details>
 </details>
+
+---
 
 <details>
 <summary>
@@ -231,8 +269,40 @@ Content-Type: application/json
 ]
 ```
 </details>
+<details>
+<summary>Objaśnienie struktury odpowiedzi</summary>
+
+```json
+{
+  "name": "id",
+  "type": {
+    "module": "primitives",
+    "name": "Long",
+    "primitive": true
+  },
+  "constraints": [
+    "Id"
+  ],
+  "multiplicity": "SINGULAR"
+}
+```
+`name` - nazwa pola w bazie, może być użyta jako domyślna etykieta pola w formularzu,  
+`type` - definicja typów prymitywnych i niestandardowych, np.: `Long`(liczby), `String`(napisy), `LocalDate`(data), 
+`LocalDateTime`(data i czas), `Customer`(Klient [niestandardowy])  
+`constraints` - dodatkowe ograniczenia nałożone przez samą bazę danych (np.: rozmiar, wymagalność) oraz 
+niestandardowe ograniczenia biznesowe (np.: maska).  
+`multiplicity` - wielokrotność pola, informuje o tym, czy model pozwala zapisać więcej niż jedną wartość opisanego typu. 
+Wartość `SINGULAR` oznacza, że tylko jedna wartość danego typu może być zapisana w tym polu, wartość `PLURAL` pozwala na
+zapis wielu wartości opisanego typu, np.: `Customer` może mieć pole `projects` z wielokrotnością `PLURAL`, co pozwoli na 
+zapis wielu projektów do tego klienta, przez jedno pole. (w starych formsach był to grid).
+
+
 
 </details>
+
+</details>
+
+---
 
 <details>
 <summary>
@@ -348,7 +418,46 @@ Content-Type: application/json
 ```
 </details>
 
+<details>
+<summary>Objaśnienie struktury odpowiedzi</summary>
+
+```json
+{
+  "id": "6466296f99728127297409ff",
+  "name": "Order task",
+  "fields": [
+    {
+      "id": "6466296f99728127297409fb",
+      "label": "Orderer",
+      "dataUrl": "https://forms.service.bpower2.com/v1/data/?t=7368fsdfasdf532b",
+      "updateUrl": "https://forms.service.bpower2.com/v1/data/?t=7234svdmg49281gf",
+      "persistenceData": {
+        "constraints": [
+          "Required",
+          "NotInsertable"
+        ],
+        "multiplicity": "SINGULAR"
+      }
+    }
+  ]
+}
+```
+
+`id` - id formularza,  
+`name` - nazwa formularza,  
+`fields` - lista pól,  
+&emsp;`id` - id pola,  
+&emsp;`label` - etykieta pola,  
+&emsp;`dataUrl` - url do pobrania danych w przypadku pola z możlwością wyboru (np.: Select),  
+&emsp;`updateUrl` - url do aktualizacji formularza w przypadku kiedy wartość pola implikuje zmiany wartości innych pól,  
+&emsp;`persistenceData` - informacje potrzebne do zapisu, między innymi wielokrotność oraz ograniczenia pola  
+
+
 </details>
+
+</details>
+
+---
 
 <details>
 <summary>
@@ -472,3 +581,5 @@ Content-Type: application/json
 </details>
 
 </details>
+
+### Lista zadań

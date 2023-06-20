@@ -10,8 +10,8 @@
     </parent>
     <groupId>com.prodactivv</groupId>
     <artifactId>FormsService</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <version>0.0.0</version>
+    <packaging>jar</packaging>
     <name>FormsService</name>
     <description>FormsService</description>
     <properties>
@@ -104,6 +104,15 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <build>
+                <finalName>forms-service</finalName>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>

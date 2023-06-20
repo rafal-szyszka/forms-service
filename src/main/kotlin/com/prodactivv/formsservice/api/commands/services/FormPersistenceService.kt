@@ -1,4 +1,4 @@
-package com.prodactivv.formsservice.api.commands
+package com.prodactivv.formsservice.api.commands.services
 
 import com.prodactivv.formsservice.api.commands.exceptions.UnknownFormExceptionSupplier
 import com.prodactivv.formsservice.communication.DataServiceBridgeService

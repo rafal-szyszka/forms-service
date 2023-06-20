@@ -7,6 +7,6 @@ class FieldWithDataDto(
     override val label: String,
     override val modelField: ModelField,
     override val decorators: List<Decorator>? = null,
-    val value: Any
+    val value: Any?
 ): FieldDto(label, modelField, decorators) {
 }

@@ -137,4 +137,22 @@ Content-Type: application/json
 }
 
 ###
+
+GET http://{{host}}/v1/forms/6464ef4d56ac612e1e8595b3/0
+Content-Type: application/json
+
+> {%
+client.test("Request passed, returned status is 200", function () {
+    client.assert(response.status === 200, "Response status expected 200, Found " + response.status)
+})
+ %}
+###
+
 GET http://{{host}}/v1/forms/6466296f99728127297409ff
+Content-Type: application/json
+
+> {%
+    client.test("Request passed, returned status is 200", function () {
+        client.assert(response.status === 200, "Response status expected 200, Found " + response.status)
+    })
+%}

@@ -1,6 +1,6 @@
 package com.prodactivv.formsservice.api.exposed
 
-import com.prodactivv.formsservice.api.commands.FormPersistenceService
+import com.prodactivv.formsservice.api.commands.services.FormPersistenceService
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

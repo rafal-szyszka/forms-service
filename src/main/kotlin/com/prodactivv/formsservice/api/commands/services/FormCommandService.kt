@@ -1,4 +1,4 @@
-package com.prodactivv.formsservice.api.commands
+package com.prodactivv.formsservice.api.commands.services
 
 import com.prodactivv.formsservice.api.commands.models.FormDto
 import com.prodactivv.formsservice.core.data.models.Field
@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class FormsService(
-    private val formRepository: FormRepository,
+class FormCommandService(
     private val fieldRepository: FieldRepository,
+    private val formRepository: FormRepository,
 ) {
-
-    fun createForm(formDto: FormDto): Form {
+    fun createForm(formDto: FormDto): Optional<Form> {
         var form = Form(
             name = formDto.name,
             fields = formDto.fields.map {
@@ -32,11 +31,7 @@ class FormsService(
         )
 
         form = formRepository.save(form)
-        return form
-    }
-
-    fun getForm(id: String): Optional<Form> {
-        return formRepository.findById(id)
+        return Optional.ofNullable(form)
     }
 
 }

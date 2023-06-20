@@ -3,6 +3,7 @@ package com.prodactivv.formsservice.communication.api
 import com.prodactivv.formsservice.communication.models.FormModel
 import com.prodactivv.formsservice.communication.models.DataServiceModelField
 import com.prodactivv.formsservice.core.proql.models.ProQLCommand
+import com.prodactivv.formsservice.core.proql.models.ProQLQuery
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -34,6 +35,9 @@ class RestDataServiceCalls {
     @Value("\${dataService.endpoints.executeCommand}")
     private lateinit var executeCommandEndpoint: String
 
+    @Value("\${dataService.endpoints.load}")
+    private lateinit var loadEndpoint: String
+
     private var httpClient: HttpClient = createClient()
 
     fun getModels(): List<String> = runBlocking {
@@ -42,6 +46,17 @@ class RestDataServiceCalls {
                 appendPathSegments(getModelsEndpoint)
             }
         }.body<List<String>>()
+    }
+
+    fun getData(proQLQuery: ProQLQuery): List<Map<String, Any>> = runBlocking {
+        return@runBlocking httpClient.post(dataServiceHost) {
+            url {
+                appendPathSegments(loadEndpoint)
+            }
+            setBody(proQLQuery)
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+        }.body<List<Map<String, Any>>>()
     }
 
     fun getModels(module: String): List<String> = runBlocking {
@@ -75,5 +90,4 @@ class RestDataServiceCalls {
             }
         }
     }
-
 }

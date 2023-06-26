@@ -1,6 +1,7 @@
 package com.prodactivv.formsservice.api.exposed
 
 import com.prodactivv.formsservice.communication.DataServiceBridgeService
+import com.prodactivv.formsservice.communication.models.DataServiceModelField
 import com.prodactivv.formsservice.communication.models.FormModel
 import com.prodactivv.formsservice.communication.models.ModelField
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,7 +26,7 @@ class FormModelsController(
     }
 
     @GetMapping("/{module}/{model}")
-    fun getModel(@PathVariable module: String, @PathVariable model: String): List<ModelField> {
+    fun getModel(@PathVariable module: String, @PathVariable model: String): List<DataServiceModelField> {
         return dataServiceBridgeService.getModel(module, model)
     }
 

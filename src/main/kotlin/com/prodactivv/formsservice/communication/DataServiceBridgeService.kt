@@ -2,6 +2,7 @@ package com.prodactivv.formsservice.communication
 
 import com.prodactivv.formsservice.communication.api.RestDataServiceCalls
 import com.prodactivv.formsservice.communication.exceptions.UnsupportedFormModelType
+import com.prodactivv.formsservice.communication.models.DataServiceModelField
 import com.prodactivv.formsservice.communication.models.FormModel
 import com.prodactivv.formsservice.communication.models.ModelField
 import com.prodactivv.formsservice.communication.models.PRIMITIVES
@@ -32,15 +33,15 @@ class DataServiceBridgeService(
         }
     }
 
-    fun getModel(module: String, model: String): List<ModelField> {
+    fun getModel(module: String, model: String): List<DataServiceModelField> {
         return restDataServiceCalls.getModel(FormModel(module, model))
             .map {
                 val formModel = it.type.split(".")
-                ModelField(
+                DataServiceModelField(
                     it.name,
                     when (formModel.size) {
-                        1 -> FormModel(PRIMITIVES, it.type)
-                        2 -> FormModel(formModel[0], formModel[1])
+                        1 -> FormModel(PRIMITIVES, it.type).toString()
+                        2 -> FormModel(formModel[0], formModel[1]).toString()
                         else -> throw UnsupportedFormModelType()
                     },
                     it.constraints,

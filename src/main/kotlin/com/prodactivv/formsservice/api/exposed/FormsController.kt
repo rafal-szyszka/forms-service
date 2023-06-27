@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
-@RequestMapping(value = ["v1/forms"])
+@RequestMapping(value = ["v1/queries"])
 class FormsController(
-    private val formCommandService: FormCommandService,
     private val formQueryService: FormQueryService,
 ) {
 
@@ -34,16 +33,6 @@ class FormsController(
         val form = formQueryService.getForm(id)
         return if (form.isPresent) {
             ResponseEntity.ok(form.get())
-        } else {
-            ResponseEntity.notFound().build()
-        }
-    }
-
-    @PostMapping
-    fun createForm(@RequestBody form: FormDto): ResponseEntity<Form> {
-        val formSaved =  formCommandService.createForm(form)
-        return if (formSaved.isPresent) {
-            ResponseEntity.ok(formSaved.get())
         } else {
             ResponseEntity.notFound().build()
         }

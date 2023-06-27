@@ -112,7 +112,7 @@ rozszerzone o pole wartości. (Patrz przykład odpowiedzi)
 
 <details>
 <summary>
-<code>GET</code> <code>/v1/formModels</code> <code>Pobranie listy dostępnych modeli</code>
+<code>GET</code> <code>/v1/meta</code> <code>Pobranie listy dostępnych modeli</code>
 </summary>
 
 #### Lista dostępnych modeli
@@ -131,7 +131,7 @@ Brak
 
 #### Przykładowe wywołanie
 ```http request
-GET http://{{host}}/v1/formModels
+GET http://{{host}}/v1/meta
 Content-Type: application/json
 ```
 
@@ -188,7 +188,7 @@ czyli utworzony przez nas, wartość `true` z kolei informuje, że dany typ jest
 
 <details>
 <summary>
-<code>GET</code> <code>/v1/formModels/{module}/{model}</code> <code>Pobranie szczegółów modelu</code>
+<code>GET</code> <code>/v1/meta/{module}/{model}</code> <code>Pobranie szczegółów modelu</code>
 </summary>
 
 #### Szczegóły modelu
@@ -206,7 +206,7 @@ informację o polach, ich typach, zależnościach i ograniczeniach.
 
 #### Przykładowe wywołanie
 ```http request
-GET http://{{host}}/v1/formModels/organization/AppUser
+GET http://{{host}}/v1/meta/organization/AppUser
 Content-Type: application/json
 ```
 <details>
@@ -306,7 +306,7 @@ zapis wielu projektów do tego klienta, przez jedno pole. (w starych formsach by
 
 <details>
 <summary>
-<code>GET</code> <code>/v1/forms/{id}</code> <code>Pobranie struktury formularza</code>
+<code>GET</code> <code>/v1/queries/{id}</code> <code>Pobranie struktury formularza</code>
 </summary>
 
 #### Struktura formularza
@@ -324,7 +324,7 @@ zasobie
 
 #### Przykładowe wywołanie
 ```http request
-GET http://{{host}}/v1/forms/test_6b706fdf3f82
+GET http://{{host}}/v1/queries/test_6b706fdf3f82
 Content-Type: application/json
 ```
 <details>
@@ -461,7 +461,7 @@ Content-Type: application/json
 
 <details>
 <summary>
-<code>GET</code> <code>/v1/forms/{id}/{dataId}</code> <code>Pobranie formularza z danymi</code>
+<code>GET</code> <code>/v1/queries/{id}/{dataId}</code> <code>Pobranie formularza z danymi</code>
 </summary>
 
 #### Formularz z danymi
@@ -478,7 +478,7 @@ Zasób pozwala pobrać formularz ze zmapowanymi danymi modelu na którym operuje
 
 #### Przykładowe wywołanie
 ```http request
-GET http://{{host}}/v1/forms/test_6b706fdf3f82/63521
+GET http://{{host}}/v1/queries/test_6b706fdf3f82/63521
 Content-Type: application/json
 ```
 <details>

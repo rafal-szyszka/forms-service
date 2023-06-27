@@ -89,4 +89,4 @@ GET http://{{host}}/v1/formModels
 #  }
 #]
 
-GET http://{{host}}/v1/formModels/organization/AppUser
+GET http://{{host}}/v1/formModels/organization/Customer

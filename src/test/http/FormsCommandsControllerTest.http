@@ -1,0 +1,270 @@
+# Ten zasób pozwala utworzyć formularz na wybranym modelu danych.
+# W ciele żądania przekazuje się strukturę formularza:
+# {
+#  "name": "Order task",
+#  "type": {
+#    "module": "prodactivvity",
+#    "name": "Task"
+#  },
+#  "fields": []
+# }
+# name = nazwa formularza wprowadzona przez użytkownika
+# type = to jest w zasadzie odpowiedź z zasobu: GET http://{{host}}/v1/formModels bez pola "primitive"
+# fields = to jest lista pól formularza w strukturze:
+# {
+#   "label": "Task name",
+#   "modelField": {}
+# }
+# label = nazwa pola wprowadzona przez użytkownika
+# modelField = to jest odpowiedź z zasobu pobierania szczegółów danego modelu np.: GET http://{{host}}/v1/formModels/organization/AppUser
+POST http://{{host}}/v1/commands
+Content-Type: application/json
+
+{
+  "name": "Kanban Task",
+  "type": {
+    "module": "agile",
+    "name": "Task"
+  },
+  "fields": [
+    {
+      "label": "ID",
+      "modelField": {
+        "name": "id",
+        "type": {
+          "module": "primitives",
+          "name": "Long"
+        },
+        "constraints": [
+          "Id"
+        ],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Name",
+      "modelField": {
+        "name": "name",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Description",
+      "modelField": {
+        "name": "description",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Answer",
+      "modelField": {
+        "name": "answer",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Created at",
+      "modelField": {
+        "name": "dateOfCreation",
+        "type": {
+          "module": "primitives",
+          "name": "LocalDate"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Due Date",
+      "modelField": {
+        "name": "dueDate",
+        "type": {
+          "module": "primitives",
+          "name": "LocalDate"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Deadline",
+      "modelField": {
+        "name": "endDate",
+        "type": {
+          "module": "primitives",
+          "name": "LocalDate"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Sprint",
+      "modelField": {
+        "name": "sprint",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Status",
+      "modelField": {
+        "name": "status",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Type",
+      "modelField": {
+        "name": "type",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Urgency",
+      "modelField": {
+        "name": "urgency",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Priority",
+      "modelField": {
+        "name": "priority",
+        "type": {
+          "module": "primitives",
+          "name": "String"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Extended Description",
+      "modelField": {
+        "name": "descriptionExtension",
+        "type": {
+          "module": "agile",
+          "name": "Description"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Orderer",
+      "modelField": {
+        "name": "orderer",
+        "type": {
+          "module": "core",
+          "name": "SysUser"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Performer",
+      "modelField": {
+        "name": "performer",
+        "type": {
+          "module": "core",
+          "name": "SysUser"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Project",
+      "modelField": {
+        "name": "project",
+        "type": {
+          "module": "primitives",
+          "name": "Project"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Metrics",
+      "modelField": {
+        "name": "capacity",
+        "type": {
+          "module": "primitives",
+          "name": "Capacity"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    },
+    {
+      "label": "Evaluation",
+      "modelField": {
+        "name": "evaluation",
+        "type": {
+          "module": "primitives",
+          "name": "Evaluation"
+        },
+        "constraints": [],
+        "multiplicity": "SINGULAR"
+      }
+    }
+  ]
+}
+
+###
+
+GET http://{{host}}/v1/forms/6464ef4d56ac612e1e8595b3/0
+Content-Type: application/json
+
+> {%
+client.test("Request passed, returned status is 200", function () {
+    client.assert(response.status === 200, "Response status expected 200, Found " + response.status)
+})
+ %}
+###
+
+GET http://{{host}}/v1/forms/6466296f99728127297409ff
+Content-Type: application/json
+
+> {%
+    client.test("Request passed, returned status is 200", function () {
+        client.assert(response.status === 200, "Response status expected 200, Found " + response.status)
+    })
+%}

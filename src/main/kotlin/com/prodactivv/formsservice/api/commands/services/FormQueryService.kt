@@ -19,11 +19,11 @@ class FormQueryService(
         val form = formRepository.findById(id).get()
         val data = dataServiceBridgeService.getData(getFormProQLQuery(form, dataId))[0]
 
-        return Optional.ofNullable(form.fields?.let {
+        return Optional.ofNullable(form.fields?.let { it1 ->
             FormWithDataDTO(
                 form.name!!,
                 form.type!!,
-                it.map {
+                it1.map {
                     FieldWithDataDto(
                         it.label!!,
                         it.persistenceData!!,

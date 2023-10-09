@@ -29,7 +29,7 @@
 #    "primitive": false
 #  }
 #]
-GET http://{{host}}/v1/formModels
+GET https://{{host}}/v1/meta
 
 ###
 # Ten zasób pozwala pobrać szczegóły wybranego modelu, między innymi pola i ich typy
@@ -89,4 +89,4 @@ GET http://{{host}}/v1/formModels
 #  }
 #]
 
-GET http://{{host}}/v1/formModels/organization/Customer
+GET https://{{host}}/v1/meta/agile/Task

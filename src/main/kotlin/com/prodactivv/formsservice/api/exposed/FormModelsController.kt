@@ -1,9 +1,8 @@
 package com.prodactivv.formsservice.api.exposed
 
-import com.prodactivv.formsservice.communication.DataServiceBridgeService
-import com.prodactivv.formsservice.communication.models.DataServiceModelField
-import com.prodactivv.formsservice.communication.models.FormModel
-import com.prodactivv.formsservice.communication.models.ModelField
+import com.prodactivv.formsservice.communication.data_service.api.DataServiceBridgeService
+import com.prodactivv.formsservice.communication.data_service.api.data.DataServiceModelField
+import com.prodactivv.formsservice.communication.data_service.api.data.FormModel
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping

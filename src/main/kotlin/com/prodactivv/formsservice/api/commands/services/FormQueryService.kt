@@ -2,7 +2,7 @@ package com.prodactivv.formsservice.api.commands.services
 
 import com.prodactivv.formsservice.api.commands.models.FieldWithDataDto
 import com.prodactivv.formsservice.api.commands.models.FormWithDataDTO
-import com.prodactivv.formsservice.communication.DataServiceBridgeService
+import com.prodactivv.formsservice.communication.data_service.api.DataServiceBridgeService
 import com.prodactivv.formsservice.core.data.models.Field
 import com.prodactivv.formsservice.core.data.models.Form
 import com.prodactivv.formsservice.core.data.repos.FormRepository

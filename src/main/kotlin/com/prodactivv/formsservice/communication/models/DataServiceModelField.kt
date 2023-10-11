@@ -1,6 +1,5 @@
 package com.prodactivv.formsservice.communication.models
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class DataServiceModelField(
@@ -13,7 +12,6 @@ class DataServiceModelField(
 
 
 class ModelField(
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     val name: String,
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     val type: FormModel,

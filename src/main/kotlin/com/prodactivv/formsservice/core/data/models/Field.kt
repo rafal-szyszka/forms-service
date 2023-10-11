@@ -1,8 +1,7 @@
 package com.prodactivv.formsservice.core.data.models
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.prodactivv.formsservice.communication.models.ModelField
+import com.prodactivv.formsservice.communication.data_service.api.data.ModelField
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 

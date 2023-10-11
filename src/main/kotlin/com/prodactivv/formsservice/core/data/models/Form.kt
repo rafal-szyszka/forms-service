@@ -1,6 +1,6 @@
 package com.prodactivv.formsservice.core.data.models
 
-import com.prodactivv.formsservice.communication.models.FormModel
+import com.prodactivv.formsservice.communication.data_service.api.data.FormModel
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document

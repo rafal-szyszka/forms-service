@@ -6,13 +6,15 @@ import com.prodactivv.formsservice.communication.models.DataServiceModelField
 import com.prodactivv.formsservice.communication.models.FormModel
 import com.prodactivv.formsservice.communication.models.ModelField
 import com.prodactivv.formsservice.communication.models.PRIMITIVES
+import com.prodactivv.formsservice.core.data.metadata.MetaDataCacheLoader
 import com.prodactivv.formsservice.core.proql.models.ProQLCommand
 import com.prodactivv.formsservice.core.proql.models.ProQLQuery
 import org.springframework.stereotype.Service
 
 @Service
 class DataServiceBridgeService(
-    private val restDataServiceCalls: RestDataServiceCalls
+    private val restDataServiceCalls: RestDataServiceCalls,
+    private val metaDataCacheLoader: MetaDataCacheLoader
 ) {
 
     fun getData(proQLQuery: ProQLQuery): List<Map<String, Any>>  {
@@ -20,6 +22,14 @@ class DataServiceBridgeService(
     }
 
     fun getModels(): List<FormModel> {
+        val cachedModels = metaDataCacheLoader.getModelsFromCache()
+        if (!cachedModels.isNullOrEmpty()) {
+            return cachedModels.map {
+                val formModel = it.split(".")
+                FormModel(formModel[0], formModel[1])
+            }
+        }
+
         return restDataServiceCalls.getModels().map {
             val formModel = it.split(".")
             FormModel(formModel[0], formModel[1])

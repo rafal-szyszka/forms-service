@@ -2,6 +2,7 @@ package com.prodactivv.formsservice.communication.api
 
 import com.prodactivv.formsservice.communication.models.FormModel
 import com.prodactivv.formsservice.communication.models.DataServiceModelField
+import com.prodactivv.formsservice.core.data.metadata.MetaDataCacheLoader
 import com.prodactivv.formsservice.core.proql.models.ProQLCommand
 import com.prodactivv.formsservice.core.proql.models.ProQLQuery
 import io.ktor.client.*
@@ -15,6 +16,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import kotlinx.coroutines.runBlocking
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.PropertySource
 import org.springframework.stereotype.Component
@@ -40,6 +42,9 @@ class RestDataServiceCalls {
 
     private var httpClient: HttpClient = createClient()
 
+    @Autowired
+    private lateinit var metaDataCacheLoader: MetaDataCacheLoader
+
     fun getModels(): List<String> = runBlocking {
         return@runBlocking httpClient.get(dataServiceHost) {
             url {
@@ -63,12 +68,18 @@ class RestDataServiceCalls {
         throw NotImplementedError()
     }
 
-    fun getModel(model: FormModel): List<DataServiceModelField> = runBlocking {
-        return@runBlocking httpClient.get(dataServiceHost) {
-            url {
-                appendPathSegments(getModelEndpoint, "${model.module}.${model.name}")
-            }
-        }.body<List<DataServiceModelField>>()
+    fun getModel(model: FormModel): List<DataServiceModelField> {
+        val cachedModelFields = metaDataCacheLoader.getModelDetailsFromCache(model)
+        if (!cachedModelFields.isNullOrEmpty()) {
+            return cachedModelFields
+        }
+        return runBlocking {
+            httpClient.get(dataServiceHost) {
+                url {
+                    appendPathSegments(getModelEndpoint, "${model.module}.${model.name}")
+                }
+            }.body<List<DataServiceModelField>>()
+        }
     }
 
     fun execute(proQLCommand: ProQLCommand): Map<String, Any> = runBlocking {

@@ -1,4 +1,4 @@
-package com.prodactivv.formsservice.config
+package com.prodactivv.formsservice.redis.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration

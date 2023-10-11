@@ -1,7 +1,7 @@
 package com.prodactivv.formsservice.api.commands.services
 
 import com.prodactivv.formsservice.api.commands.exceptions.UnknownFormExceptionSupplier
-import com.prodactivv.formsservice.communication.DataServiceBridgeService
+import com.prodactivv.formsservice.communication.data_service.api.DataServiceBridgeService
 import com.prodactivv.formsservice.core.data.repos.FormRepository
 import com.prodactivv.formsservice.core.proql.models.ProQLCommand
 import org.springframework.stereotype.Service

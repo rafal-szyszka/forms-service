@@ -1,4 +1,4 @@
-package com.prodactivv.formsservice.communication.models
+package com.prodactivv.formsservice.communication.data_service.api.data
 
 const val PRIMITIVES = "primitives"
 

@@ -5,7 +5,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 
 @Configuration
-@PropertySource(value = ["classpath:DataService.properties"])
+@PropertySource("classpath:DataService.properties")
+@PropertySource(value = ["classpath:DataService-\${spring.profiles.active}.properties"], ignoreResourceNotFound = true)
 class DataServiceRestConfiguration {
 
     @Value("\${dataService.host.url}")

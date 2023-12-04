@@ -107,6 +107,13 @@
             <version>2.15.2</version>
         </dependency>
 
+        <!--        MULTITHREADING-->
+        <dependency>
+            <groupId>org.jobrunr</groupId>
+            <artifactId>jobrunr-spring-boot-3-starter</artifactId>
+            <version>6.2.3</version>
+        </dependency>
+
         <!--        TESTS-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,7 +1,5 @@
 package com.prodactivv.formsservice.communication.data_service.api.data
 
-import com.prodactivv.formsservice.communication.models.Constraints
-
 class DataServiceModelField(
     val name: String,
     val type: String,

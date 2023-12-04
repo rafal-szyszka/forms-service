@@ -13,7 +13,8 @@ import java.util.*
 @Service
 class FormQueryService(
     private val dataServiceBridgeService: DataServiceBridgeService,
-    private val formRepository: FormRepository
+    private val formRepository: FormRepository,
+    private val multivalueFieldsService: MultiValueFieldsService
 ) {
     fun getFormWithData(id: String, dataId: String): Optional<FormWithDataDTO> {
         val form = formRepository.findById(id).get()
@@ -35,7 +36,7 @@ class FormQueryService(
         })
     }
 
-    private fun getFormProQLQuery(form: Form, dataId: String): ProQLQuery {
+    fun getFormProQLQuery(form: Form, dataId: String): ProQLQuery {
         return ProQLQuery(
             form.type.toString(),
             mutableMapOf("id" to dataId),
@@ -49,6 +50,10 @@ class FormQueryService(
     }
 
     fun getForm(id: String): Optional<Form> {
-        return formRepository.findById(id)
+        val form = formRepository.findById(id)
+        if (form.isPresent) {
+            form.get().fields?.forEach { multivalueFieldsService.fetchDataForField(it) }
+        }
+        return form
     }
 }

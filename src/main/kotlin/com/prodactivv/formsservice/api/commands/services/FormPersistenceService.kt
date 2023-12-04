@@ -33,9 +33,13 @@ class FormPersistenceService(
             } else {
                 var any = data[it.id]
                 if (any != null) {
-                    if(persistenceData!!.constraints.contains("SaveByText")){
-                        val toChangeIds = dataServiceBridgeService.getData(ProQLQuery(it.label.toString(),
-                                mutableMapOf(Pair(persistenceData.name, any)), null))
+                    if (persistenceData!!.constraints.any { c -> c.name == "SaveByText" }) {
+                        val toChangeIds = dataServiceBridgeService.getData(
+                            ProQLQuery(
+                                it.label.toString(),
+                                mutableMapOf(Pair(persistenceData.name, any)), null
+                            )
+                        )
                         any = toChangeIds[0]["id"]
                     }
                     root.commands.add(

@@ -2,6 +2,9 @@ package com.prodactivv.formsservice.api.commands.services
 
 import com.prodactivv.formsservice.api.commands.exceptions.UnknownFormExceptionSupplier
 import com.prodactivv.formsservice.communication.data_service.api.DataServiceBridgeService
+import com.prodactivv.formsservice.communication.data_service.api.data.ModelField
+import com.prodactivv.formsservice.core.data.models.Field
+import com.prodactivv.formsservice.core.data.models.Form
 import com.prodactivv.formsservice.core.data.repos.FormRepository
 import com.prodactivv.formsservice.core.proql.models.ProQLCommand
 import com.prodactivv.formsservice.core.proql.models.ProQLQuery
@@ -20,7 +23,7 @@ class FormPersistenceService(
 
     private fun createProQLCommand(data: Map<String, Any>, formId: String): ProQLCommand {
         val form = formRepository.findById(formId).orElseThrow(UnknownFormExceptionSupplier())
-        val root = ProQLCommand(
+        val rootCommand = ProQLCommand(
             form.type.toString(),
             mutableMapOf(),
             mutableListOf(),
@@ -29,32 +32,53 @@ class FormPersistenceService(
             val persistenceData = it.persistenceData
             val type = persistenceData!!.type
             if (type.isPrimitive()) {
-                data[it.id]?.let { value -> root.properties.put(persistenceData.name, value) }
+                data[it.id]?.let { value -> rootCommand.properties.put(persistenceData.name, value) }
             } else {
-                var any = data[it.id]
-                if (any != null) {
-                    if (persistenceData!!.constraints.any { c -> c.name == "SaveByText" }) {
-                        val toChangeIds = dataServiceBridgeService.getData(
-                            ProQLQuery(
-                                it.label.toString(),
-                                mutableMapOf(Pair(persistenceData.name, any)), null
-                            )
-                        )
-                        any = toChangeIds[0]["id"]
-                    }
-                    root.commands.add(
-                        ProQLCommand(
-                            type = persistenceData.type.toString(),
-                            properties = mutableMapOf(Pair("id", any.toString())),
-                            commands = mutableListOf(),
-                            parentProperty = persistenceData.name
-                        )
-                    )
-                }
+                data[it.id]?.let { value -> handleComplexType(value, persistenceData, form, it, rootCommand) }
             }
         }
 
-        return root
+        return rootCommand
+    }
+
+    private fun handleComplexType(
+        fieldValue: Any?,
+        persistenceData: ModelField,
+        form: Form,
+        field: Field,
+        rootCommand: ProQLCommand
+    ) {
+        fieldValue?.let {
+            val adjustedValue = if (persistenceData.constraints.any { it.name == "SaveByText" }) {
+                adjustValueBySaveByTextConstraint(fieldValue, persistenceData, form, field)
+            } else {
+                fieldValue
+            }
+
+            rootCommand.commands.add(
+                ProQLCommand(
+                    type = persistenceData.type.toString(),
+                    properties = mutableMapOf("id" to adjustedValue),
+                    commands = mutableListOf(),
+                    parentProperty = persistenceData.name
+                )
+            )
+        }
+    }
+
+    private fun adjustValueBySaveByTextConstraint(
+        fieldValue: Any,
+        persistenceData: ModelField,
+        form: Form,
+        field: Field,
+    ): Any {
+        val attribute = persistenceData.constraints.find { it.name == "SaveByText" }?.attribute ?: return fieldValue
+        val queryType = "${form.type!!.module}.${field.label}"
+        return dataServiceBridgeService.getData(
+            ProQLQuery(
+                queryType, mutableMapOf(attribute to fieldValue), null
+            )
+        ).firstOrNull()?.get("id") ?: fieldValue
     }
 
 }

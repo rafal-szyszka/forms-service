@@ -21,7 +21,7 @@ POST http://{{host}}/v1/commands
 Content-Type: application/json
 
 {
-  "name": "Kanban Task",
+  "name": "Test Task",
   "type": {
     "module": "agile",
     "name": "Task"
@@ -36,7 +36,10 @@ Content-Type: application/json
           "name": "Long"
         },
         "constraints": [
-          "Id"
+          {
+            "name": "Id",
+            "attribute": ""
+          }
         ],
         "multiplicity": "SINGULAR"
       }
@@ -214,10 +217,15 @@ Content-Type: application/json
       "modelField": {
         "name": "project",
         "type": {
-          "module": "primitives",
+          "module": "agile",
           "name": "Project"
         },
-        "constraints": [],
+        "constraints": [
+          {
+            "name": "SaveByText",
+            "attribute": "name"
+          }
+        ],
         "multiplicity": "SINGULAR"
       }
     },
